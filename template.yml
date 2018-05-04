@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Outputs:
+  Api:
+    Value: !Ref ServerlessRestApi
+Resources:
+  VotesTable:
+    Type: "AWS::Serverless::SimpleTable"
+  HelloWorld:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Runtime: python3.6
+      Handler: hello.hello_world
+      Events:
+        Hello:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: get
+  Vote:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Timeout: 10
+      Runtime: python3.6
+      Handler: vote.vote
+      Policies: AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref VotesTable
+      Events:
+        Vote:
+          Type: Api
+          Properties:
+            Path: /vote
+            Method: post
+  VoteResults:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Timeout: 10
+      Runtime: python3.6
+      Handler: vote.voteresults
+      Policies: AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref VotesTable
+      Events:
+        Vote:
+          Type: Api
+          Properties:
+            Path: /vote
+            Method: get
