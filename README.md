@@ -22,7 +22,7 @@ This repo should help you get started authoring, testing, and deploying your own
 * Ensure that Docker is installed.
 * Install the AWS CLI: `pip install awscli`, etc.
 * Install the AWS SAM CLI: `npm install -g aws-sam-local`, etc.
-* Edit the provided `config` file to override `STACK_NAME` and other relevant values.
+* Copy the provided `config.example` file into your own file named `config` to  override `STACK_NAME` and other relevant values.
 
 ### Local development
 
